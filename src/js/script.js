@@ -1,7 +1,7 @@
 /* global Handlebars, utils, dataSource */ // eslint-disable-line no-unused-vars
 
 {
-  'use strict';
+  ('use strict');
 
   const select = {
     templateOf: {
@@ -45,21 +45,45 @@
       defaultValue: 1,
       defaultMin: 1,
       defaultMax: 9,
-    }
+    },
   };
 
   const templates = {
-    menuProduct: Handlebars.compile(document.querySelector(select.templateOf.menuProduct).innerHTML),
+    menuProduct: Handlebars.compile(
+      document.querySelector(select.templateOf.menuProduct).innerHTML
+    ),
   };
 
+  class Product {
+    constractor() {
+      const thisProduct = this;
+
+      console.log('new product: ', thisProduct);
+    }
+  }
+
   const app = {
-    init: function(){
+    initMenu: function () {
+      const thisApp = this;
+      console.log('thisApp.data: ', thisApp.data)
+      const testProduct = new Product();
+      console.log('testProduct: ', testProduct);
+    },
+    initData: function () {
+      const thisApp = this;
+
+      thisApp.data = dataSource;
+    },
+
+    init: function () {
       const thisApp = this;
       console.log('*** App starting ***');
       console.log('thisApp:', thisApp);
       console.log('classNames:', classNames);
       console.log('settings:', settings);
       console.log('templates:', templates);
+      thisApp.initData();
+      thisApp.initMenu();
     },
   };
 
