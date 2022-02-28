@@ -86,13 +86,14 @@
       
         event.preventDefault();
 
-        let activeProduct = document.querySelector('#product-list .active');
-        //console.log('activeProduct', activeProduct);
-        //console.log(thisProduct.element);
+        const activeProduct = document.querySelector(select.all.menuProductsActive);
+        console.log('activeProduct', activeProduct);
+        console.log(thisProduct.element);
 
         if(activeProduct && activeProduct != thisProduct.element){
 
           activeProduct.classList.remove('active');
+          console.log('if');
 
         }
         thisProduct.element.classList.toggle('active');
