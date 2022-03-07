@@ -1,12 +1,11 @@
 /* global Handlebars, utils, dataSource */ // eslint-disable-line no-unused-vars
-
 {
   ('use strict');
 
   const select = {
     templateOf: {
       menuProduct: '#template-menu-product',
-      cartProduct: '#template-cart-product',
+      cartProduct: '#template-cart-product', // CODE ADDED
     },
     containerOf: {
       menu: '#product-list',
@@ -27,11 +26,12 @@
     },
     widgets: {
       amount: {
-        input: 'input.amount',
+        input: 'input.amount', // CODE CHANGED
         linkDecrease: 'a[href="#less"]',
         linkIncrease: 'a[href="#more"]',
       },
     },
+    // CODE ADDED START
     cart: {
       productList: '.cart__order-summary',
       toggleTrigger: '.cart__summary',
@@ -50,36 +50,39 @@
       edit: '[href="#edit"]',
       remove: '[href="#remove"]',
     },
+    // CODE ADDED END
   };
-
+  
   const classNames = {
     menuProduct: {
       wrapperActive: 'active',
       imageVisible: 'active',
     },
+    // CODE ADDED START
     cart: {
       wrapperActive: 'active',
     },
+    // CODE ADDED END
   };
-
+  
   const settings = {
     amountWidget: {
       defaultValue: 1,
       defaultMin: 0,
       defaultMax: 10,
-    },
+    }, // CODE CHANGED
+    // CODE ADDED START
     cart: {
       defaultDeliveryFee: 20,
     },
+    // CODE ADDED END
   };
-
+  
   const templates = {
-    menuProduct: Handlebars.compile(
-      document.querySelector(select.templateOf.menuProduct).innerHTML
-    ),
-    cartProduct: Handlebars.compile(
-      document.querySelector(select.templateOf.cartProduct).innerHTML
-    ),
+    menuProduct: Handlebars.compile(document.querySelector(select.templateOf.menuProduct).innerHTML),
+    // CODE ADDED START
+    cartProduct: Handlebars.compile(document.querySelector(select.templateOf.cartProduct).innerHTML),
+    // CODE ADDED END
   };
 
   class Product {
@@ -175,6 +178,7 @@
       thisProduct.cartButton.addEventListener('click', function(event){
         event.preventDefault();
         thisProduct.processOrder();
+        thisProduct.addToCart();
       });
     }
 
@@ -226,6 +230,12 @@
 
       // update calculated price in the HTML
       thisProduct.priceElem.innerHTML = price;
+    }
+    
+    addToCart(){
+      const thisProduct = this;
+
+      app.cart.add(thisProduct);
     }
   }
 
@@ -322,6 +332,12 @@
 
         thisCart.dom.wrapper.classList.toggle(classNames.cart.wrapperActive);
       });
+    }
+
+    add(menuProduct){
+      //const = this;
+
+      console.log('adding product', menuProduct);
     }
   }
 
