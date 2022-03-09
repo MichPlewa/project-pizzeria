@@ -96,6 +96,7 @@
       thisProduct.initAccordion();
       thisProduct.initOrderFrom();
       thisProduct.initAmountWidget();
+      thisProduct.processOrder();
 
       console.log('new product: ', thisProduct);
     }
@@ -275,12 +276,12 @@
     
         // for every option in this category
         for(let optionId in param.options) {
-          //const option = param.options[optionId];
+          const option = param.options[optionId];
           const optionSelected = formData[paramId] && formData[paramId].includes(optionId);
     
           if(optionSelected) {
             // option is selected!
-            params[paramId].option = thisProduct.option;
+            params[paramId].options[optionId] = option.label;
           }
         }
       }
@@ -391,13 +392,13 @@
 
       console.log('adding product', menuProduct);
 
-      const generetedHTML = templates.cartProduct(thisCart.data);
+      const generetedHTML = templates.cartProduct(menuProduct);
 
       thisCart.element = utils.createDOMFromHTML(generetedHTML);
 
-      const generetedDOM = document.querySelector(select.containerOf.cart);
+      const generetedDOM = utils.createDOMFromHTML(generetedHTML);
 
-      generetedDOM.appendChild(thisCart.dom.productList);
+      thisCart.dom.productList.appendChild(generetedDOM);
     }
   }
 
