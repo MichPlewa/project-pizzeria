@@ -98,13 +98,13 @@
       thisProduct.initAmountWidget();
       thisProduct.processOrder();
 
-      console.log('new product: ', thisProduct);
+      //console.log('new product: ', thisProduct);
     }
     initAmountWidget(){
       const thisProduct = this;
       
-      thisProduct.amountWidget = new AmountWidget(thisProduct.amountWidgetElm);
-      thisProduct.amountWidgetElm.addEventListener('updated', function(event){
+      thisProduct.amountWidget = new AmountWidget(thisProduct.amountWidgetElem);
+      thisProduct.amountWidgetElem.addEventListener('updated', function(event){
         event.preventDefault;
         thisProduct.processOrder();
       });
@@ -132,9 +132,7 @@
       thisProduct.cartButton = thisProduct.element.querySelector(select.menuProduct.cartButton);
       thisProduct.priceElem = thisProduct.element.querySelector(select.menuProduct.priceElem);
       thisProduct.imageWrapper = thisProduct.element.querySelector(select.menuProduct.imageWrapper);
-      thisProduct.amountWidgetElm = thisProduct.element.querySelector(select.menuProduct.amountWidget);
-
-
+      thisProduct.amountWidgetElem = thisProduct.element.querySelector(select.menuProduct.amountWidget);
     }
 
     initAccordion(){
@@ -163,7 +161,7 @@
 
     initOrderFrom(){
       const thisProduct = this;
-      console.log('==initOrderFrom==');
+      //console.log('==initOrderFrom==');
 
       thisProduct.form.addEventListener('submit', function(event){
         event.preventDefault();
@@ -188,7 +186,7 @@
 
       // covert form to object structure e.g. { sauce: ['tomato'], toppings: ['olives', 'redPeppers']}
       const formData = utils.serializeFormToObject(thisProduct.form);
-      console.log('formData', formData);
+      //console.log('formData', formData);
 
       // set price to default price
       let price = thisProduct.data.price;
@@ -300,8 +298,8 @@
 
       this.initActions();
 
-      console.log('AmountWidget: ', thisWidget);
-      console.log('constructor argument: ', element);
+      //console.log('AmountWidget: ', thisWidget);
+      //console.log('constructor argument: ', element);
     }
 
     getElement(element){
@@ -361,7 +359,7 @@
       
       thisCart.initActions();
 
-      console.log('new Cart: ', thisCart);
+      //console.log('new Cart: ', thisCart);
     }
 
     getElements(element){
@@ -370,11 +368,12 @@
       thisCart.dom = {};
 
       thisCart.dom.wrapper = element;
-
       thisCart.dom.toggleTrigger = element.querySelector(select.cart.toggleTrigger);
-
       thisCart.dom.productList = element.querySelector(select.cart.productList);
-    
+      thisCart.dom.deliveryFee = element.querySelector(select.cart.deliveryFee);
+      thisCart.dom.subtotalPrice = element.querySelector(select.cart.subtotalPrice);
+      thisCart.dom.totalPrice = element.querySelector(select.cart.totalPrice);
+      thisCart.dom.totalNumber = element.querySelector(select.cart.totalNumber);
     }
 
     initActions(){
@@ -390,7 +389,7 @@
     add(menuProduct){
       const thisCart = this;
 
-      console.log('adding product', menuProduct);
+      //console.log('adding product', menuProduct);
 
       const generetedHTML = templates.cartProduct(menuProduct);
 
@@ -402,7 +401,37 @@
 
       thisCart.products.push(new CartProduct(menuProduct, generetedDOM));
 
-      console.log('thisCart.products', thisCart.products);
+      thisCart.update();
+      //console.log('thisCart.products', thisCart.products);
+    }
+
+    update(){
+      const thisCart = this;
+
+      let deliveryFee = settings.cart.defaultDeliveryFee;
+      let totalNumber = 0;
+      let subtotalPrice = 0;
+
+      for(let product of thisCart.products){
+        totalNumber += product.amount;
+        subtotalPrice += product.price;
+      }
+
+      if(thisCart.totalNumber == 0){
+        deliveryFee = 0;
+      }
+
+      thisCart.totalPrice = subtotalPrice + deliveryFee;
+
+      console.log('totalNumber: ', totalNumber);
+      console.log('subtotalPrice: ', subtotalPrice);
+      console.log('deliveryFee: ', deliveryFee);
+      console.log('thisCart.totalPrice: ', thisCart.totalPrice);
+
+      thisCart.dom.totalPrice.innerHTML = thisCart.totalPrice;
+      thisCart.dom.deliveryFee.innerHTML = deliveryFee;
+      thisCart.dom.subtotalPrice.innerHTML = subtotalPrice;
+      thisCart.dom.totalNumber.innerHTML = totalNumber;
     }
   }
 
@@ -416,7 +445,7 @@
       thisCartProduct.price = menuProduct.price;
       thisCartProduct.priceSingle = menuProduct.priceSingle;
 
-      console.log(thisCartProduct);
+      //console.log(thisCartProduct);
 
       thisCartProduct.getElements(element);
       thisCartProduct.initAmountWidget();
@@ -435,13 +464,14 @@
       thisCartProduct.dom.remove = element.querySelector(select.cartProduct.remove);
 
     }
+
     initAmountWidget(){
       const thisCartProduct = this;
       
-      thisCartProduct.amountWidget = new AmountWidget(thisCartProduct.amountWidgetElm);
-      thisCartProduct.dom.amountWidgetElm.addEventListener('updated', function(){
+      thisCartProduct.amountWidget = new AmountWidget(thisCartProduct.dom.amountWidgetElem);
+      thisCartProduct.dom.amountWidgetElem.addEventListener('updated', function(){
         thisCartProduct.amount = thisCartProduct.amountWidget.value;
-        thisCartProduct.generetedDOM.price = thisCartProduct.priceSingle * thisCartProduct.amount;
+        thisCartProduct.price = thisCartProduct.priceSingle * thisCartProduct.amount;
         thisCartProduct.dom.price.innerHTML = thisCartProduct.price;
       });
     }
@@ -451,7 +481,7 @@
     initMenu: function () {
       const thisApp = this;
 
-      console.log('thisApp.data: ', thisApp.data);
+      //console.log('thisApp.data: ', thisApp.data);
 
       for (let productData in thisApp.data.products) {
         new Product(productData, thisApp.data.products[productData]);
@@ -467,8 +497,8 @@
     initCart: function(){
       const thisApp = this;
 
-      const cartElm = document.querySelector(select.containerOf.cart);
-      thisApp.cart = new Cart(cartElm);
+      const cartElem = document.querySelector(select.containerOf.cart);
+      thisApp.cart = new Cart(cartElem);
     },
 
     init: function () {
