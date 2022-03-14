@@ -403,12 +403,13 @@
 
       thisCart.dom.productList.addEventListener('remove', function(event){
         thisCart.remove(event.detail.cartProduct);
-
-        thisCart.dom.form.addEventListener('submit', function(event){
-          event.preventDefault();
-          thisCart.sendOrder();
-        });
       });
+
+      thisCart.dom.form.addEventListener('submit', function(event){
+        event.preventDefault();
+        thisCart.sendOrder();
+      });
+      
     }
 
     add(menuProduct){
@@ -489,7 +490,7 @@
       };
       console.log('payload: ', payload);
 
-      for(let prod of thisCart.product){
+      for(let prod of thisCart.products){
         payload.products.push(prod.getData());
       }
 
