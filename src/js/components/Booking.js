@@ -18,14 +18,14 @@ class Booking {
     thisBooking.element = utils.createDOMFromHTML(generatedHTML);
 
     const bookingContainer = document.querySelector(select.containerOf.booking);
-
+    bookingContainer.appendChild(thisBooking.element).innerHTML;
     thisBooking.dom = {
       wrapper: element,
       peopleAmount: document.querySelector(select.booking.peopleAmount),
       hoursAmount: document.querySelector(select.booking.hoursAmount)
     };
 
-    bookingContainer.appendChild(thisBooking.element).innerHTML;
+    
   }
 
   initWidgets(){

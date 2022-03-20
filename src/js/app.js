@@ -83,14 +83,14 @@ const app = {
         return rawResponse.json();
       })
       .then(function(parasedResponse){
-        console.log('parasedResponse: ', parasedResponse);
+        //console.log('parasedResponse: ', parasedResponse);
 
         thisApp.data.products = parasedResponse;
 
         thisApp.initMenu();
       });
 
-    console.log('thisApp.data: ', JSON.stringify(thisApp.data));
+    //console.log('thisApp.data: ', JSON.stringify(thisApp.data));
   },
 
   initCart: function(){
