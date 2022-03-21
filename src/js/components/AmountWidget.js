@@ -3,15 +3,16 @@ import BaseWidget from './BaseWidget.js';
 
 class AmountWidget extends BaseWidget{
   constructor(element){
-    super(element);
+    super(element, settings.amountWidget.defaultValue);
     const thisWidget = this;
 
     thisWidget.getElement();
+    thisWidget.setValue(thisWidget.dom.input.value || settings.amountWidget.defaultValue);
 
     thisWidget.initActions();
-    thisWidget.setValue( settings.amountWidget.defaultValue);
+    //thisWidget.setValue( settings.amountWidget.defaultValue);
 
-    //console.log('AmountWidget: ', thisWidget);
+    console.log('AmountWidget: ', thisWidget);
     //console.log('constructor argument: ', element);
   }
 
@@ -29,6 +30,12 @@ class AmountWidget extends BaseWidget{
     return  !isNaN(value) 
     && value <= settings.amountWidget.defaultMax 
     && value >= settings.amountWidget.defaultMin;
+  }
+
+  renderValue(){
+    const thisWidget = this;
+
+    thisWidget.dom.input.value = thisWidget.value;
   }
 
   initActions(){
