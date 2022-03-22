@@ -15,7 +15,6 @@ class Product {
     thisProduct.initAmountWidget();
     thisProduct.processOrder();
 
-    //console.log('new product: ', thisProduct);
   }
   initAmountWidget(){
     const thisProduct = this;
@@ -62,13 +61,10 @@ class Product {
       event.preventDefault();
 
       const activeProduct = document.querySelector(select.all.menuProductsActive);
-      //console.log('activeProduct', activeProduct);
-      //console.log(thisProduct.element);
 
       if(activeProduct && activeProduct != thisProduct.element){
 
         activeProduct.classList.remove('active');
-        //console.log('if');
 
       }
       thisProduct.element.classList.toggle('active');
@@ -78,7 +74,6 @@ class Product {
 
   initOrderFrom(){
     const thisProduct = this;
-    //console.log('==initOrderFrom==');
 
     thisProduct.form.addEventListener('submit', function(event){
       event.preventDefault();
@@ -103,7 +98,6 @@ class Product {
 
     // covert form to object structure e.g. { sauce: ['tomato'], toppings: ['olives', 'redPeppers']}
     const formData = utils.serializeFormToObject(thisProduct.form);
-    //console.log('formData', formData);
 
     // set price to default price
     let price = thisProduct.data.price;
@@ -112,15 +106,12 @@ class Product {
     for(let paramId in thisProduct.data.params) {
       // determine param value, e.g. paramId = 'toppings', param = { label: 'Toppings', type: 'checkboxes'... }
       const param = thisProduct.data.params[paramId];
-      //console.log('param: ', paramId, param);
 
       // for every option in this category
       for(let optionId in param.options) {
         // determine option value, e.g. optionId = 'olives', option = { label: 'Olives', price: 2, default: true }
         const option = param.options[optionId];
-        //console.log(optionId, option);
-      
-        //console.log('formData:  ', formData);
+
 
         if(formData[paramId] && formData[paramId].includes(optionId)){
           if(!option.default){
@@ -164,7 +155,6 @@ class Product {
         product : thisProduct,
       },
     });
-    console.log(thisProduct);
 
     thisProduct.element.dispatchEvent(event);
     
