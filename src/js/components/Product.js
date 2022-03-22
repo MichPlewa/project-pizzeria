@@ -155,7 +155,7 @@ class Product {
 
     thisProduct.name = thisProduct.data.name;
     thisProduct.amount = thisProduct.amountWidget.value;
-    thisProduct.price = thisProduct.data.price;
+    thisProduct.price = thisProduct.data.price * thisProduct.amount;
 
     //app.cart.add(thisProduct.prepareCartProduct());
     const event = new CustomEvent('add-to-cart', {
@@ -164,6 +164,7 @@ class Product {
         product : thisProduct,
       },
     });
+    console.log(thisProduct);
 
     thisProduct.element.dispatchEvent(event);
     
