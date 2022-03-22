@@ -34,7 +34,7 @@ export const select = {
       input: 'input[name="date"]',
     },
     hourPicker: {
-      wrapper: 'hour-picker',
+      wrapper: '.hour-picker',
       input: 'input[type="range"]',
       output: '.output',
     },    
