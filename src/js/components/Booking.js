@@ -11,6 +11,7 @@ class Booking {
     thisBooking.render(element);
     thisBooking.initWidgets();
     thisBooking.getDate();
+    thisBooking.initTables();
   }  
 
   getDate(){
@@ -152,7 +153,9 @@ class Booking {
     thisBooking.element = utils.createDOMFromHTML(generatedHTML);
 
     const bookingContainer = document.querySelector(select.containerOf.booking);
-    bookingContainer.appendChild(thisBooking.element).innerHTML;
+
+    bookingContainer.appendChild(thisBooking.element);
+
     thisBooking.dom = {
       wrapper: element,
       peopleAmount: document.querySelector(select.booking.peopleAmount),
@@ -160,8 +163,13 @@ class Booking {
       datePicker: document.querySelector(select.widgets.datePicker.wrapper),
       hourPicker: document.querySelector(select.widgets.hourPicker.wrapper),
       tables: document.querySelectorAll(select.booking.tables),
+      diningRoom: element.querySelector(select.booking.diningRoom),
+      phone: element.querySelector(select.booking.phone),
+      address: element.querySelector(select.booking.address),   
+      form: element.querySelector(select.booking.form),
+      bookingOptions: element.querySelector(select.booking.bookingOptions),
     };
-
+    thisBooking.starters = [];
   }
 
   initWidgets(){
@@ -175,6 +183,87 @@ class Booking {
     thisBooking.dom.wrapper.addEventListener('updated', function(){
       thisBooking.updateDom();
     });
+
+    thisBooking.dom.form.addEventListener('submit', function(event){
+      event.preventDefault();
+      thisBooking.sendBooking();
+    });
+
+    thisBooking.dom.bookingOptions.addEventListener('click', function(event){
+      const starter = event.target;
+
+      if(starter.getAttribute('type') === 'checkbox' && starter.getAttribute('name') === 'starter'){
+        if(starter.checked){
+          thisBooking.starters.push(starter.value);          
+        } else if (!starter.checked){
+          const starterId = thisBooking.starters.indexOf(starter.value);
+          thisBooking.starters.splice(starterId, 1);
+        }        
+      }      
+    });
+  }
+
+  initTables(){
+    const thisBooking = this;
+
+    thisBooking.dom.diningRoom.addEventListener('click', function(event){     
+
+      const clickedElement = event.target;
+      const table = clickedElement.getAttribute(settings.booking.tableIdAttribute);
+      let tableId = '';
+      
+      if(table != null){
+        
+        if(!clickedElement.classList.contains(classNames.booking.tableBooked)){
+         
+          const tables = thisBooking.element.querySelectorAll(select.booking.tables);
+         
+          if(!clickedElement.classList.contains(classNames.booking.tableSelected)){
+            for(let table of tables ){
+              table.classList.remove(classNames.booking.tableSelected);
+              tableId = '';
+            }
+            clickedElement.classList.add(classNames.booking.tableSelected);
+
+            const clickedElementId = clickedElement.getAttribute('data-table');
+            tableId = clickedElementId;
+            thisBooking.tableId = parseInt(tableId);
+            
+          } else if (clickedElement.classList.contains(classNames.booking.tableSelected)){
+            clickedElement.classList.remove(classNames.booking.tableSelected);
+          }        
+        }
+      }
+    });
+  }
+
+  sendData(){
+    const thisBooking = this;
+
+    const url = settings.db.url + '/' + settings.db.booking;
+
+    const payload = {
+      date: thisBooking.datePickerElem.value,
+      hour: thisBooking.hourPickerElem.value,
+      table: thisBooking.tableId,
+      duration: parseInt(thisBooking.hoursAmountElem.value),
+      ppl: parseInt(thisBooking.peopleAmountElem.value),
+      starters: thisBooking.starters,     
+      phone: thisBooking.dom.phone.value,
+      address: thisBooking.dom.address.value
+    };
+
+    thisBooking.makeBooked(payload.date, payload.hour, payload.duration, payload.table);    
+
+    const options = { 
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      }, 
+      body: JSON.stringify(payload) 
+    };
+    fetch(url, options);    
+    thisBooking.updateDOM();         
   }
 }
 
