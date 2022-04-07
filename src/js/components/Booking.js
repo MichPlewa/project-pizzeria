@@ -136,7 +136,7 @@ class Booking {
       if(
         !allAvailable
         &&
-        thisBooking.booked[thisBooking.date][thisBooking.hour].includes(tableId) > -1
+        thisBooking.booked[thisBooking.date][thisBooking.hour].includes(tableId) > 0
       ){
         table.classList.add(classNames.booking.tableBooked);
       } else{
@@ -181,12 +181,18 @@ class Booking {
     thisBooking.hourPickerElem = new HourPicker(thisBooking.dom.hourPicker);
 
     thisBooking.dom.wrapper.addEventListener('updated', function(){
+      const selectedTable = thisBooking.dom.wrapper.querySelector(select.booking.selectedTable);
+      
+      if(selectedTable){selectedTable.classList.remove(classNames.booking.tableSelected);
+
+        thisBooking.tableId = null;
+      }
       thisBooking.updateDom();
     });
 
     thisBooking.dom.form.addEventListener('submit', function(event){
       event.preventDefault();
-      thisBooking.sendBooking();
+      thisBooking.sendData();
     });
 
     thisBooking.dom.bookingOptions.addEventListener('click', function(event){

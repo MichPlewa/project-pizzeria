@@ -49,6 +49,7 @@ export const select = {
     form: '.booking-form',
     starter: '[name="starter"]',
     bookingOptions: '.starters-input',
+    selectedTable: '.table.selected'
   },
   nav: {
     links: '.main-nav a',
