@@ -11,8 +11,6 @@ class CartProduct {
     thisCartProduct.price = menuProduct.price;
     thisCartProduct.priceSingle = menuProduct.priceSingle;
 
-    console.log('thisCartProduct: ', thisCartProduct);
-
     thisCartProduct.getElements(element);
     thisCartProduct.initAmountWidget();
     thisCartProduct.initActions();
@@ -38,7 +36,6 @@ class CartProduct {
     thisCartProduct.amountWidget = new AmountWidget(thisCartProduct.dom.amountWidgetElem);
     thisCartProduct.dom.amountWidgetElem.addEventListener('updated', function(){
       thisCartProduct.amount = thisCartProduct.amountWidget.value;
-      console.log('amount', thisCartProduct .amount);
       thisCartProduct.price = thisCartProduct.priceSingle * thisCartProduct.amount;
       thisCartProduct.dom.price.innerHTML = thisCartProduct.price;
     });
@@ -67,7 +64,6 @@ class CartProduct {
     thisCartProduct.dom.remove.addEventListener('click', function(event){
       event.preventDefault;
       thisCartProduct.remove();
-      //console.log('remove');
     });
   }
 

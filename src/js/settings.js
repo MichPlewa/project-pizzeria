@@ -34,7 +34,7 @@ export const select = {
       input: 'input[name="date"]',
     },
     hourPicker: {
-      wrapper: 'hour-picker',
+      wrapper: '.hour-picker',
       input: 'input[type="range"]',
       output: '.output',
     },    
@@ -43,6 +43,13 @@ export const select = {
     peopleAmount: '.people-amount',
     hoursAmount: '.hours-amount',
     tables: '.floor-plan .table',
+    diningRoom: '.floor-plan',
+    phone: '[name="phone"]',
+    address: '[name="address"]', 
+    form: '.booking-form',
+    starter: '[name="starter"]',
+    bookingOptions: '.starters-input',
+    selectedTable: '.table.selected'
   },
   nav: {
     links: '.main-nav a',
@@ -82,6 +89,7 @@ export const classNames = {
   booking: {
     loading: 'loading',
     tableBooked: 'booked',
+    tableSelected: 'selected',
   },
   nav: {
     active: 'active',
@@ -106,8 +114,8 @@ export const settings = {
     url: '//localhost:3131',
     products: 'products',
     orders: 'orders',
-    booking: 'booking',
-    event: 'event',
+    booking: 'bookings',
+    event: 'events',
     dateStartParamKey: 'date_gte',
     dateEndParamKey: 'date_lte',
     notRepeatParam: 'repeat=false',

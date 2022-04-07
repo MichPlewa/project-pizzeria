@@ -10,10 +10,6 @@ class Cart{
 
     thisCart.getElements(element);
     thisCart.initActions();
-
-    //console.log('thisCart.dom.totalPrice: ', thisCart.dom.totalPrice);
-
-    //console.log('new Cart: ', thisCart);
   }
 
   getElements(element){
@@ -61,8 +57,6 @@ class Cart{
   add(menuProduct){
     const thisCart = this;
 
-    console.log('adding product', menuProduct);
-
     const generetedHTML = templates.cartProduct(menuProduct);
 
     thisCart.element = utils.createDOMFromHTML(generetedHTML);
@@ -72,7 +66,6 @@ class Cart{
     thisCart.dom.productList.appendChild(generetedDOM);
 
     thisCart.products.push(new CartProduct(menuProduct, generetedDOM));
-    console.log('thisCart.products', thisCart.products);
     thisCart.update();
     
   }
@@ -84,13 +77,10 @@ class Cart{
     thisCart.totalNumber = 0;
     thisCart.subtotalPrice = 0;
 
-    console.log('this.product: ', thisCart.products);
 
     for(let product of thisCart.products){
-      console.log('product: ', product);
       thisCart.totalNumber += product.amount;
       thisCart.subtotalPrice += product.price;
-      console.log('product.amount', product.amount);
     }
 
     if(thisCart.totalNumber === 0){
@@ -99,10 +89,6 @@ class Cart{
 
     thisCart.totalPrice = thisCart.subtotalPrice + thisCart.deliveryFee;
 
-    console.log('totalNumber: ', thisCart.totalNumber);
-    console.log('subtotalPrice: ', thisCart.subtotalPrice);
-    console.log('deliveryFee: ', thisCart.deliveryFee);
-    console.log('thisCart.totalPrice: ', thisCart.totalPrice);
     for(let price of thisCart.dom.totalPrice){
       price.innerHTML = thisCart.totalPrice;
     }
@@ -138,7 +124,6 @@ class Cart{
       deliveryFee: thisCart.deliveryFee,
       products: []
     };
-    console.log('payload: ', payload);
 
     for(let prod of thisCart.products){
       payload.products.push(prod.getData());
