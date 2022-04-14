@@ -57,7 +57,7 @@ export const select = {
     selectedTable: '.table.selected'
   },
   nav: {
-    links: '.main-nav a',
+    links: '.main-nav a, a.nav-link',
   },
   // CODE ADDED START
   cart: {

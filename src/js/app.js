@@ -114,12 +114,11 @@ const app = {
   init: function () {
     const thisApp = this;
 
- 
-    thisApp.initPages();
+    thisApp.initHome();
     thisApp.initData();
     thisApp.initCart();
     thisApp.initBooking();
-    thisApp.initHome();
+    thisApp.initPages();
   },
 };
 app.init();
