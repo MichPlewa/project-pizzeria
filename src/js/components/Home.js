@@ -13,13 +13,9 @@ class Home {
   render(element){
     const thisHome = this;
   
-    /* generate HTML based on template */
     const generatedHTML = templates.homePage();
-    /* create element using utils.createElementFromHTML */
     thisHome.element = utils.createDOMFromHTML(generatedHTML);
-    /* find menu container */
     const homeContainer = document.querySelector(select.containerOf.home);
-    /* add element to menu */
     homeContainer.appendChild(thisHome.element);      
 
     thisHome.dom = {
@@ -49,15 +45,10 @@ class Home {
         const clickedElement = this;
         event.preventDefault();
 
-        /*  get page id from href attribute*/
-
         const id = clickedElement.getAttribute('href').replace('#', '');
 
-        /* run thisApp.activatePage with that id */
 
         thisHome.activatePage(id);
-
-        /* change URL hash*/
 
         window.location.hash = '#/' + id;
 
@@ -69,13 +60,9 @@ class Home {
   activatePage(pageId){
     const thisHome = this;
 
-    /* add class "active" to matching pages. remove from non-matching */
-
     for(let page of thisHome.pages){
       page.classList.toggle(classNames.pages.active, page.id == pageId);
     }
-
-    /* add class "active" to matching links. remove from non-matching */
 
     for(let link of thisHome.navBar){
       link.classList.toggle(
