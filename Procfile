@@ -1,1 +1,1 @@
-web: node server.jshe
+web: node server.js
